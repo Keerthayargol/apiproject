@@ -37,3 +37,37 @@ async function dogfacts(){
     }
     
 }
+let colurl = "https://universities.hipolabs.com/search?country=";
+
+let btn=document.querySelector("#btn4");
+
+btn.addEventListener("click",async()=>{
+    console.log("button was clicked");
+    let country=document.querySelector("input").value;
+    console.log(country);
+    let names=await getcollage(country);
+    show(names);
+})
+function show(names) {
+    let list = document.querySelector("ul");
+
+    // list.innerHTML = await getcollage(country); // Clear previous results
+
+    for (let name of names) {
+        let li = document.createElement("li");
+       console.log(name.name);
+        li.innerText = name.name;
+        list.appendChild(li);
+    }
+}
+
+
+async function getcollage(country) {
+    try {
+        let res = await axios.get(colurl + country);
+        return res.data;
+    } catch (e) {
+        console.log(e);
+        return [];
+    }
+}
